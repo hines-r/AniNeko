@@ -57,7 +57,7 @@
                 <DataGridTemplateColumn Header="Progress" Width="*" SortMemberPath="PercentComplete">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Grid >
+                            <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
