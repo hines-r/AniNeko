@@ -28,6 +28,15 @@ namespace AniNeko
             }
         }
 
+        public static AnimeModel GetLastRecord()
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                var output = cnn.Query<AnimeModel>("SELECT * FROM Animes WHERE Id = (SELECT MAX(Id) FROM Animes)").FirstOrDefault();
+                return output;
+            }
+        }
+
         public static void UpdateAnime(AnimeModel anime)
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))

@@ -97,10 +97,14 @@ namespace AniNeko.ViewModels
 
         private void AddToAnimeList(AnimeModel animeToAdd)
         {
+            // Saves the anime to the database
+            // Sets the id of the anime to the database version
+            SQLiteDataAccess.SaveAnime(animeToAdd);
+            animeToAdd.Id = SQLiteDataAccess.GetLastRecord().Id;
+
             // Inserts an anime in the first index of the bindable collection
             // This makes it appear at the top of the data grid
             _animes.Insert(0, animeToAdd);
-            SQLiteDataAccess.SaveAnime(animeToAdd);
             NotifyOfPropertyChange(() => TotalAnimes);
         }
 
