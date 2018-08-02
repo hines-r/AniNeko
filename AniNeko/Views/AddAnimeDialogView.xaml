@@ -1,0 +1,104 @@
+﻿<UserControl x:Class="AniNeko.Views.AddAnimeDialogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+             xmlns:domain="clr-namespace:AniNeko.Domain"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"           
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="500">
+
+    <Grid Margin="16" Width="500">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <!-- TOP TEXT -->
+        <TextBlock Text="New Anime" HorizontalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="3"/>
+
+        <!-- NAME TEXT BOX -->
+        <TextBox wpf:HintAssist.Hint="Name" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                 Grid.Row="1" Grid.ColumnSpan="3"
+                 x:Name="AnimeName"
+                 Margin="0 6 0 0"
+                 FontSize="18" >
+            <TextBox.Text>
+                <Binding Path="AnimeName" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <domain:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+
+        <!-- STATUS COMBO BOX -->
+        <ComboBox wpf:HintAssist.Hint="Status" Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                  x:Name="WatchStatus"
+                  Margin="0 24 6 0"
+                  Width="Auto"
+                  ItemsSource="{Binding Status}"
+                  FontSize="16" Grid.Row="2" Grid.Column="0"/>
+
+        <!-- PROGRESS -->
+        <TextBox wpf:HintAssist.Hint="Current Episode" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                 x:Name="CurrentEpisode"
+                 Margin="0 24 6 0"             
+                 PreviewTextInput="NumberValidationTextBox"
+                 Grid.Row="2" Grid.Column="1"/>
+
+        <TextBox wpf:HintAssist.Hint="Total Episodes" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                 x:Name="TotalEpisodes"
+                 Margin="0 24 6 0"
+                 PreviewTextInput="NumberValidationTextBox"
+                 Grid.Row="2" Grid.Column="2"/>
+
+        <!-- RATING BAR -->
+        <wpf:RatingBar Grid.Row="3" Grid.ColumnSpan="3"
+                       x:Name="Rating"
+                       Margin="0 24 0 0"
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center"/>
+
+        <!-- BUTTONS -->
+        <StackPanel Grid.Row="4" Grid.ColumnSpan="3"
+                    Orientation="Horizontal" 
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Center"                 
+                    Margin="0 16 0 0">
+            
+            <Button Content="ACCEPT"
+                    IsDefault="True"
+                    Style="{DynamicResource MaterialDesignFlatButton}"
+                    Command="{x:Static wpf:DialogHost.CloseDialogCommand}" 
+                    IsEnabled="{Binding ElementName=AnimeName, Path=Text.Length}">
+
+                <Button.CommandParameter>
+                    <system:Boolean>True</system:Boolean>
+                </Button.CommandParameter>
+            </Button>
+            
+            <Button Content="CANCEL"
+                    IsCancel="True" 
+                    Margin="8 0 0 0" 
+                    Style="{DynamicResource MaterialDesignFlatButton}"
+                    Command="{x:Static wpf:DialogHost.CloseDialogCommand}">
+                <Button.CommandParameter>
+                    <system:Boolean>False</system:Boolean>
+                </Button.CommandParameter>
+            </Button>
+            
+        </StackPanel>
+
+    </Grid>
+</UserControl>
