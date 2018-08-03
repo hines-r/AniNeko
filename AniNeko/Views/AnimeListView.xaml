@@ -14,7 +14,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -22,7 +22,7 @@
         </Grid.RowDefinitions>
 
         <DataGrid x:Name="MyDataGrid" ItemsSource="{Binding Animes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                  Grid.Row="0" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False" 
+                  Grid.Row="0" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False"
                   materialDesign:DataGridAssist.CellPadding="16 8 8 8" IsReadOnly="True" 
                   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
                   SelectedItem="{Binding Path=SelectedAnime, UpdateSourceTrigger=PropertyChanged}" 
@@ -44,6 +44,7 @@
                 <materialDesign:MaterialDataGridTextColumn Binding="{Binding AnimeName, UpdateSourceTrigger=PropertyChanged}"
                                                            Header="Name"
                                                            Width="Auto"
+                                                           MinWidth="200"
                                                            EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MaterialDesignBody2TextBlock}">
@@ -54,7 +55,7 @@
                 </materialDesign:MaterialDataGridTextColumn>
 
                 <!-- PROGRESS COLUMN -->
-                <DataGridTemplateColumn Header="Progress" Width="*" SortMemberPath="PercentComplete">
+                <DataGridTemplateColumn Header="Progress" Width="*" MinWidth="200" SortMemberPath="PercentComplete">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Grid>
@@ -64,7 +65,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <ProgressBar Margin="0 0 8 0"                                                  
-                                             Minimum="0"     
+                                             Minimum="0"   
                                              Maximum="{Binding TotalEpisodes, UpdateSourceTrigger=PropertyChanged}" 
                                              Value="{Binding CurrentEpisode, UpdateSourceTrigger=PropertyChanged}"
                                              VerticalAlignment="Center"/>
@@ -98,6 +99,7 @@
                 <materialDesign:MaterialDataGridTextColumn Binding="{Binding WatchStatus, UpdateSourceTrigger=PropertyChanged}"
                                                            Header="Status"
                                                            Width="Auto"
+                                                           MinWidth="110"
                                                            EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MaterialDesignBody2TextBlock}">
@@ -107,7 +109,7 @@
                 </materialDesign:MaterialDataGridTextColumn>
 
                 <!-- RATING COLUMN -->
-                <DataGridTemplateColumn Header="Rating" Width="Auto" SortMemberPath="Rating">
+                <DataGridTemplateColumn Header="Rating" Width="Auto" MinWidth="150" SortMemberPath="Rating">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Grid VerticalAlignment="Center">
