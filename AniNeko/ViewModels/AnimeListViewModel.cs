@@ -93,6 +93,9 @@ namespace AniNeko.ViewModels
                         anime.Hidden = true;
                 }
             }
+
+            // Counts total number of visible animes
+            NotifyOfPropertyChange(() => TotalAnimes);
         }
 
         private void AddToAnimeList(AnimeModel animeToAdd)
@@ -117,7 +120,8 @@ namespace AniNeko.ViewModels
                 // Returns the total number of animes within the bindable collection
                 foreach (var anime in _animes)
                 {
-                    count++;
+                    if (!anime.Hidden)
+                        count++;
                 }
 
                 return "Total: " + count;
