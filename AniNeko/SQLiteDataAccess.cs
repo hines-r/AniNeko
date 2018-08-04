@@ -10,11 +10,13 @@ namespace AniNeko
 {
     public class SQLiteDataAccess
     {
+        private static readonly string TableName = "Animes";
+
         public static List<AnimeModel> LoadAnime()
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
-                var output = cnn.Query<AnimeModel>("SELECT * FROM Animes", new DynamicParameters());
+                var output = cnn.Query<AnimeModel>("SELECT * FROM " + TableName, new DynamicParameters());
                 return output.ToList();
             }
         }
@@ -23,7 +25,7 @@ namespace AniNeko
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
-                cnn.Execute("INSERT INTO Animes (AnimeName, CurrentEpisode, TotalEpisodes, WatchStatus, Rating) " +
+                cnn.Execute($"INSERT INTO {TableName} (AnimeName, CurrentEpisode, TotalEpisodes, WatchStatus, Rating) " +
                     "VALUES (@AnimeName, @CurrentEpisode, @TotalEpisodes, @WatchStatus, @Rating)", anime);
             }
         }
@@ -32,7 +34,7 @@ namespace AniNeko
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
-                var output = cnn.Query<AnimeModel>("SELECT * FROM Animes WHERE Id = (SELECT MAX(Id) FROM Animes)").FirstOrDefault();
+                var output = cnn.Query<AnimeModel>($"SELECT * FROM {TableName} WHERE Id = (SELECT MAX(Id) FROM {TableName})").FirstOrDefault();
                 return output;
             }
         }
@@ -41,7 +43,7 @@ namespace AniNeko
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
-                cnn.Execute("UPDATE Animes SET " +
+                cnn.Execute($"UPDATE {TableName} SET " +
                     "AnimeName = @AnimeName, " +
                     "CurrentEpisode = @CurrentEpisode, " +
                     "TotalEpisodes = @TotalEpisodes, " +
@@ -55,7 +57,7 @@ namespace AniNeko
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
-                cnn.Execute("DELETE FROM Animes WHERE Id = @Id", anime);
+                cnn.Execute($"DELETE FROM {TableName} WHERE Id = @Id", anime);
             }
         }
 
