@@ -11,6 +11,7 @@ namespace AniNeko.ViewModels
     {
         private BindableCollection<AnimeModel> _animes;
         private AnimeModel _selectedAnime;
+
         public SortMethod _sortType;
 
         public enum SortMethod
@@ -95,7 +96,7 @@ namespace AniNeko.ViewModels
             }
 
             // Counts total number of visible animes
-            UpdateAnimeCount();
+            NotifyOfPropertyChange(() => TotalAnimes);
         }
 
         private void AddToAnimeList(AnimeModel animeToAdd)
@@ -108,7 +109,7 @@ namespace AniNeko.ViewModels
             // Inserts an anime in the first index of the bindable collection
             // This makes it appear at the top of the data grid
             _animes.Insert(0, animeToAdd);
-            UpdateAnimeCount();
+            NotifyOfPropertyChange(() => TotalAnimes);
         }
 
         public string TotalAnimes
@@ -126,11 +127,6 @@ namespace AniNeko.ViewModels
 
                 return "Total: " + count;
             }
-        }
-
-        public void UpdateAnimeCount()
-        {
-            NotifyOfPropertyChange(() => TotalAnimes);
         }
 
         public BindableCollection<AnimeModel> Animes
@@ -237,7 +233,7 @@ namespace AniNeko.ViewModels
 
                     // Removes the selection from the bindable collection
                     Animes.Remove(SelectedAnime);
-                    UpdateAnimeCount();
+                    NotifyOfPropertyChange(() => TotalAnimes);
                 }
 
                 // If cancel is pressed, just closes the dialog
