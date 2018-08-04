@@ -95,7 +95,7 @@ namespace AniNeko.ViewModels
             }
 
             // Counts total number of visible animes
-            NotifyOfPropertyChange(() => TotalAnimes);
+            UpdateAnimeCount();
         }
 
         private void AddToAnimeList(AnimeModel animeToAdd)
@@ -108,7 +108,7 @@ namespace AniNeko.ViewModels
             // Inserts an anime in the first index of the bindable collection
             // This makes it appear at the top of the data grid
             _animes.Insert(0, animeToAdd);
-            NotifyOfPropertyChange(() => TotalAnimes);
+            UpdateAnimeCount();
         }
 
         public string TotalAnimes
@@ -126,6 +126,11 @@ namespace AniNeko.ViewModels
 
                 return "Total: " + count;
             }
+        }
+
+        public void UpdateAnimeCount()
+        {
+            NotifyOfPropertyChange(() => TotalAnimes);
         }
 
         public BindableCollection<AnimeModel> Animes

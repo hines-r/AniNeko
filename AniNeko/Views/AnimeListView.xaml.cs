@@ -64,6 +64,7 @@ namespace AniNeko.Views
                     // the data grids data context (AnimeListViewModel)
                     AnimeListViewModel dataContext = (AnimeListViewModel)MyDataGrid.DataContext;
                     dataContext.Animes.Remove(selection);
+                    dataContext.UpdateAnimeCount();
 
                     // Removes the selection from the SQLite database
                     SQLiteDataAccess.DeleteAnime(selection);
