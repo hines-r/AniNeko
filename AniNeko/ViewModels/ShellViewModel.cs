@@ -8,7 +8,7 @@ namespace AniNeko.ViewModels
 {
     public class ShellViewModel : Conductor<object>
     {
-        private int _selected; // The selected index of the tab control
+        private int _selectedTabIndex; // The selected index of the tab control
         private AnimeListViewModel _animeListViewModel;
 
         public ShellViewModel()
@@ -26,22 +26,22 @@ namespace AniNeko.ViewModels
 
         public int Selected
         {
-            get { return _selected; }
+            get { return _selectedTabIndex; }
             set
             {              
-                _selected = value;
+                _selectedTabIndex = value;
 
                 // Depending on which tab is selected, changes the sorting method for the bindable collection
                 // within the anime list view model
-                if (_selected == 0)
+                if (_selectedTabIndex == 0)
                     _animeListViewModel.SortType = AnimeListViewModel.SortMethod.All;
-                else if (_selected == 1)
+                else if (_selectedTabIndex == 1)
                     _animeListViewModel.SortType = AnimeListViewModel.SortMethod.Watching;
-                else if (_selected == 2)
+                else if (_selectedTabIndex == 2)
                     _animeListViewModel.SortType = AnimeListViewModel.SortMethod.Completed;
-                else if (_selected == 3)
+                else if (_selectedTabIndex == 3)
                     _animeListViewModel.SortType = AnimeListViewModel.SortMethod.PlanToWatch;
-                else if (_selected == 4)
+                else if (_selectedTabIndex == 4)
                     _animeListViewModel.SortType = AnimeListViewModel.SortMethod.Dropped;
             }
         }
