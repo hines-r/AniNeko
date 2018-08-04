@@ -25,8 +25,13 @@
                   Grid.Row="0" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False"
                   materialDesign:DataGridAssist.CellPadding="16 8 8 8" IsReadOnly="True" 
                   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
-                  SelectedItem="{Binding Path=SelectedAnime, UpdateSourceTrigger=PropertyChanged}" 
-                  MouseDoubleClick="Animes_MouseDoubleClick">
+                  SelectedItem="{Binding Path=SelectedAnime, UpdateSourceTrigger=PropertyChanged}">
+
+            <DataGrid.InputBindings>
+                <MouseBinding Gesture="LeftDoubleClick" 
+                              Command="{Binding RunEditAnimeDialogCommand}"
+                              CommandParameter="{Binding ElementName=MyDataGrid, Path=SelectedItem}"/>
+            </DataGrid.InputBindings>
 
             <DataGrid.RowStyle>
                 <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource MaterialDesignDataGridRow}">

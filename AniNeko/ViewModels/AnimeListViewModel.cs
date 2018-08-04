@@ -187,5 +187,61 @@ namespace AniNeko.ViewModels
                 AddToAnimeList(animeToAdd);
             }
         }
+
+        public ICommand RunEditAnimeDialogCommand => new RelayCommand(ExecuteEditAnimeDialog);
+
+        private async void ExecuteEditAnimeDialog(object o)
+        {
+            var view = new EditAnimeDialogView
+            {
+                DataContext = new AnimeModel()
+            };
+
+            if (SelectedAnime != null)
+            {
+                // Populates the edit dialog view with values from selected anime
+                view.NameHeader.Text = "Edit " + SelectedAnime.AnimeName;
+                view.AnimeName.Text = SelectedAnime.AnimeName;
+                view.WatchStatus.SelectedItem = SelectedAnime.WatchStatus;
+                view.CurrentEpisode.Text = SelectedAnime.CurrentEpisode.ToString();
+                view.TotalEpisodes.Text = SelectedAnime.TotalEpisodes.ToString();
+                view.RatingBar.Value = SelectedAnime.Rating;
+
+                var result = await DialogHost.Show(view, "RootDialog");
+
+                if (result.ToString() == "Accept")
+                {
+                    // Sets the values of the selected anime to the new values within the dialog
+                    SelectedAnime.AnimeName = view.AnimeName.Text;
+                    SelectedAnime.WatchStatus = view.WatchStatus.SelectedItem.ToString();
+
+                    if (int.TryParse(view.CurrentEpisode.Text, out int currentEpisode))
+                        SelectedAnime.CurrentEpisode = currentEpisode;
+                    else
+                        SelectedAnime.CurrentEpisode = 0;
+
+                    if (int.TryParse(view.TotalEpisodes.Text, out int totalEpisodes))
+                        SelectedAnime.TotalEpisodes = totalEpisodes;
+                    else
+                        SelectedAnime.TotalEpisodes = 0;
+
+                    SelectedAnime.Rating = view.RatingBar.Value;
+
+                    // Updates the selected anime within the SQLite database
+                    SQLiteDataAccess.UpdateAnime(SelectedAnime);
+                }
+                else if (result.ToString() == "Remove")
+                {
+                    // Removes the selection from the SQLite database
+                    SQLiteDataAccess.DeleteAnime(SelectedAnime);
+
+                    // Removes the selection from the bindable collection
+                    Animes.Remove(SelectedAnime);
+                    UpdateAnimeCount();
+                }
+
+                // If cancel is pressed, just closes the dialog
+            }
+        }
     }
 }
