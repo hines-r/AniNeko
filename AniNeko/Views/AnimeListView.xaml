@@ -33,6 +33,14 @@
                               CommandParameter="{Binding ElementName=MyDataGrid, Path=SelectedItem}"/>
             </DataGrid.InputBindings>
 
+            <DataGrid.Resources>
+                <ContextMenu x:Key="RowContextMenu">
+                    <MenuItem Header="Remove Selection" 
+                              Command="{Binding DataContext.RemoveContextCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                              CommandParameter="{Binding SelectedItems, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"/>
+                </ContextMenu>
+            </DataGrid.Resources>
+
             <DataGrid.RowStyle>
                 <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource MaterialDesignDataGridRow}">
                     <Style.Triggers>
@@ -40,18 +48,9 @@
                             <Setter Property="Visibility" Value="Collapsed"/>
                         </DataTrigger>
                     </Style.Triggers>
+                    <Setter Property="ContextMenu" Value="{StaticResource RowContextMenu}"/>
                 </Style>
             </DataGrid.RowStyle>
-
-            <DataGrid.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Remove Selection" 
-                              Command="{Binding RemoveContextCommand}" 
-                              CommandParameter="{Binding PlacementTarget.SelectedItems, 
-                                                RelativeSource={RelativeSource FindAncestor, 
-                                                AncestorType={x:Type ContextMenu}}}"/>
-                </ContextMenu>
-            </DataGrid.ContextMenu>
 
             <DataGrid.Columns>
 
