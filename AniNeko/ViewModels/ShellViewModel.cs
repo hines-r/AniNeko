@@ -91,8 +91,7 @@ namespace AniNeko.ViewModels
 
             // Sorts the list by status when a search query is entered
             // This ensures if the user enters a search under a sorting tab, the list will still be sorted
-            if (Selected != 0)
-                animeVM.SortAnimeByStatus();
+            animeVM.SortAnimeByStatus();
         }
 
         public ICommand CancelSearchCommand => new RelayCommand(ExecuteCancelSearch);
