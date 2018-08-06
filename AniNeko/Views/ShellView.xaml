@@ -65,7 +65,7 @@
                                 ToolTip="Search"
                                 Command="{Binding SearchCommand}"
                                 CommandParameter="{Binding ElementName=SearchBox, Path=Text}">
-                            <materialDesign:PackIcon Kind="Magnify" Opacity=".56"/>
+                            <materialDesign:PackIcon Kind="Magnify" Opacity=".7"/>
                         </Button>
 
                         <TextBox Grid.Column="1"
@@ -90,7 +90,7 @@
                                 Style="{DynamicResource MaterialDesignToolButton}"
                                 Command="{Binding CancelSearchCommand}"
                                 CommandParameter="{Binding ElementName=SearchBox}">
-                            <materialDesign:PackIcon Kind="CloseCircleOutline" Opacity=".56"/>
+                            <materialDesign:PackIcon Kind="CloseCircleOutline" Opacity=".7"/>
                         </Button>
                         
                     </Grid>
