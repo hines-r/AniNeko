@@ -26,6 +26,14 @@ namespace AniNeko.ViewModels
             Dropped
         }
 
+        public Dictionary<SortMethod, string> _statusDictionary = new Dictionary<SortMethod, string>()
+        {
+            { SortMethod.Completed, "Completed" },
+            { SortMethod.Watching, "Watching" },
+            { SortMethod.PlanToWatch, "Plan to Watch" },
+            { SortMethod.Dropped, "Dropped" }
+        };
+
         public AnimeListViewModel()
         {
             LoadAnimeList();
@@ -65,36 +73,11 @@ namespace AniNeko.ViewModels
                 anime.Hidden = false;
             }
 
-            if (SortType == SortMethod.Watching)
+            foreach (var anime in Animes)
             {
-                foreach (var anime in _animes)
+                if (anime.WatchStatus != _statusDictionary.GetValueOrDefault(SortType))
                 {
-                    if (anime.WatchStatus != "Watching")
-                        anime.Hidden = true;
-                }
-            }
-            else if (SortType == SortMethod.Completed)
-            {
-                foreach (var anime in _animes)
-                {
-                    if (anime.WatchStatus != "Completed")
-                        anime.Hidden = true;
-                }
-            }
-            else if (SortType == SortMethod.PlanToWatch)
-            {
-                foreach (var anime in _animes)
-                {
-                    if (anime.WatchStatus != "Plan to Watch")
-                        anime.Hidden = true;
-                }
-            }
-            else if (SortType == SortMethod.Dropped)
-            {
-                foreach (var anime in _animes)
-                {
-                    if (anime.WatchStatus != "Dropped")
-                        anime.Hidden = true;
+                    anime.Hidden = true;
                 }
             }
 
