@@ -42,7 +42,7 @@ namespace AniNeko.ViewModels
         public void LoadAnimeList()
         {
             // Populates the bindable collection with all animes within
-            // the SQLite database upon initilization
+            // the SQLite database upon initialization
             _animes = new BindableCollection<AnimeModel>();
             var list = SQLiteDataAccess.LoadAnime();
 
@@ -60,24 +60,38 @@ namespace AniNeko.ViewModels
             {
                 _sortType = value;
                 NotifyOfPropertyChange(() => SortType);
-                SortAnimeByStatus();
             }
         }
 
+        public bool IsSearching { get; set; }
+
         public void SortAnimeByStatus()
         {
-            // Resets all animes within the data grid before sorting again
-            // This allows previously hidden items to be visible again
-            foreach (var anime in _animes)
+            // If currently searching, hides animes that are flagged for search
+            if (IsSearching)
             {
-                anime.Hidden = false;
+                foreach (var anime in _animes)
+                {
+                    if (anime.IsFlaggedForSearch)
+                        anime.Hidden = false;
+                }
+            }
+            else
+            {
+                // Resets all animes within the data grid before sorting again
+                // This allows previously hidden items to be visible again
+                foreach (var anime in _animes)
+                {
+                    anime.Hidden = false;
+                }
             }
 
-            foreach (var anime in Animes)
+            if (SortType != SortMethod.All)
             {
-                if (anime.WatchStatus != _statusDictionary.GetValueOrDefault(SortType))
+                foreach (var anime in Animes)
                 {
-                    anime.Hidden = true;
+                    if (anime.WatchStatus != _statusDictionary.GetValueOrDefault(SortType))
+                        anime.Hidden = true;
                 }
             }
 
@@ -89,12 +103,17 @@ namespace AniNeko.ViewModels
         {
             // Saves the anime to the database
             // Sets the id of the anime to the database version
+            // This ensures it has the correct id to delete or edit later if needed
             SQLiteDataAccess.SaveAnime(animeToAdd);
             animeToAdd.Id = SQLiteDataAccess.GetLastRecord().Id;
 
             // Inserts an anime in the first index of the bindable collection
             // This makes it appear at the top of the data grid
             _animes.Insert(0, animeToAdd);
+
+            if (SortType != SortMethod.All)
+                SortAnimeByStatus();
+
             NotifyOfPropertyChange(() => TotalAnimes);
         }
 
@@ -104,7 +123,7 @@ namespace AniNeko.ViewModels
             {
                 int count = 0;
 
-                // Returns the total number of animes within the bindable collection
+                // Returns the total number of visible animes within the bindable collection
                 foreach (var anime in _animes)
                 {
                     if (!anime.Hidden)

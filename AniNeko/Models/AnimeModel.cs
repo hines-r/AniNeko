@@ -109,5 +109,7 @@ namespace AniNeko.Models
                 NotifyOfPropertyChange(() => Hidden);
             }
         }
+
+        public bool IsFlaggedForSearch { get; set; }
     }
 }

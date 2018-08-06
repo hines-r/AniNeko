@@ -1,10 +1,7 @@
 ﻿using Caliburn.Micro;
 using AniNeko.Views;
-using MaterialDesignThemes.Wpf;
-using System;
 using System.Windows.Input;
 using System.Linq;
-using AniNeko.Models;
 
 namespace AniNeko.ViewModels
 {
@@ -45,29 +42,52 @@ namespace AniNeko.ViewModels
                     _animeListViewModel.SortType = AnimeListViewModel.SortMethod.PlanToWatch;
                 else if (_selectedTabIndex == 4)
                     _animeListViewModel.SortType = AnimeListViewModel.SortMethod.Dropped;
+
+                _animeListViewModel.SortAnimeByStatus(); // Properly sorts the list after specifying the sort method
             }
         }
 
-        public ICommand SearchCommand => new RelayCommand(Search);
+        public ICommand SearchCommand => new RelayCommand(ExecuteSearch);
 
-        private void Search(object o)
+        private void ExecuteSearch(object _input)
         {
+            string input = _input.ToString(); // Gets the text from the search bar
             AnimeListView view = (AnimeListView)_animeListViewModel.GetView();
-            string input = o.ToString(); // Gets the text from the text box
-
+            AnimeListViewModel animeVM = _animeListViewModel;
+            
             // Sets the data grid item source to the original collection
             if (string.IsNullOrEmpty(input))
             {
-                view.MyDataGrid.ItemsSource = _animeListViewModel.Animes;
+                animeVM.IsSearching = false;
+                animeVM.SortAnimeByStatus();
                 return;
             }
 
             // Searches the anime list for entries that contain the input and places it in a new bindable collection
-            var filteredList = _animeListViewModel.Animes.Where(anime => anime.AnimeName.ToLower().Contains(input.ToLower()));
-            BindableCollection<AnimeModel> newList = new BindableCollection<AnimeModel>(filteredList);
+            var filteredList = animeVM.Animes.Where(anime => anime.AnimeName.ToLower().Contains(input.ToLower()));
 
-            // Sets the data grids item source to the new list
-            view.MyDataGrid.ItemsSource = newList;
+            animeVM.IsSearching = true;
+
+            foreach (var anime in animeVM.Animes)
+            {
+                // If the anime is within the filtered list, make it visible and flag it for searching
+                // If not, hide it and make sure it isn't flagged for searching
+                if (filteredList.Contains(anime))
+                {
+                    anime.IsFlaggedForSearch = true;
+                    anime.Hidden = false;
+                }
+                else
+                {
+                    anime.IsFlaggedForSearch = false;
+                    anime.Hidden = true;
+                }
+            }
+
+            // Sorts the list by status when a search query is entered
+            // This ensures if the user enters a search under a sorting tab, the list will still be sorted
+            if (Selected != 0)
+                animeVM.SortAnimeByStatus();
         }
     }
 }
