@@ -62,6 +62,7 @@
                         </Grid.ColumnDefinitions>
                         
                         <Button Style="{DynamicResource MaterialDesignToolButton}"
+                                ToolTip="Search"
                                 Command="{Binding SearchCommand}"
                                 CommandParameter="{Binding ElementName=SearchBox, Path=Text}">
                             <materialDesign:PackIcon Kind="Magnify" Opacity=".56"/>
@@ -85,6 +86,7 @@
                         </TextBox>
 
                         <Button Grid.Column="2"
+                                ToolTip="Cancel"
                                 Style="{DynamicResource MaterialDesignToolButton}"
                                 Command="{Binding CancelSearchCommand}"
                                 CommandParameter="{Binding ElementName=SearchBox}">
