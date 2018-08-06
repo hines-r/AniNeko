@@ -3,6 +3,10 @@ using AniNeko.Models;
 using AniNeko.Views;
 using MaterialDesignThemes.Wpf;
 using System.Windows.Input;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Collections;
 
 namespace AniNeko.ViewModels
 {
@@ -227,15 +231,33 @@ namespace AniNeko.ViewModels
                 }
                 else if (result.ToString() == "Remove")
                 {
-                    // Removes the selection from the SQLite database
-                    SQLiteDataAccess.DeleteAnime(SelectedAnime);
-
-                    // Removes the selection from the bindable collection
-                    Animes.Remove(SelectedAnime);
-                    NotifyOfPropertyChange(() => TotalAnimes);
+                    RemoveAnime(SelectedAnime);
                 }
 
                 // If cancel is pressed, just closes the dialog
+            }
+        }
+
+        private void RemoveAnime(AnimeModel animeToRemove)
+        {
+            // Removes the selection from the SQLite database
+            SQLiteDataAccess.DeleteAnime(animeToRemove);
+
+            // Removes the selection from the bindable collection
+            Animes.Remove(animeToRemove);
+            NotifyOfPropertyChange(() => TotalAnimes);
+        }
+
+        public ICommand RemoveContextCommand => new RelayCommand(ExecuteRemoveContext);
+
+        private void ExecuteRemoveContext(object o)
+        {
+            IList selectedItems = o as IList;
+            List<AnimeModel> collection = new List<AnimeModel>(selectedItems.Cast<AnimeModel>());
+
+            foreach (var anime in collection)
+            {
+                RemoveAnime(anime);
             }
         }
     }

@@ -43,6 +43,16 @@
                 </Style>
             </DataGrid.RowStyle>
 
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Remove Selection" 
+                              Command="{Binding RemoveContextCommand}" 
+                              CommandParameter="{Binding PlacementTarget.SelectedItems, 
+                                                RelativeSource={RelativeSource FindAncestor, 
+                                                AncestorType={x:Type ContextMenu}}}"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+
             <DataGrid.Columns>
 
                 <!-- NAME COLUMN -->
