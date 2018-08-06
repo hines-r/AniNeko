@@ -86,21 +86,23 @@
 
                                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                                     
-                                    <TextBox Grid.Column="1"
-                                             IsReadOnly="True"
+                                    <TextBlock Grid.Column="1"
                                              Text="{Binding CurrentEpisode, UpdateSourceTrigger=PropertyChanged}"
                                              MinWidth="25"
                                              MaxWidth="25"
-                                             TextAlignment="Center"/>
+                                             TextAlignment="Center"
+                                             VerticalAlignment="Center"/>
                                     
-                                    <TextBlock Grid.Column="2" Text=" / " VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="2" 
+                                               Text=" / " 
+                                               VerticalAlignment="Center"/>
                                     
-                                    <TextBox Grid.Column="3"
-                                             IsReadOnly="True"
+                                    <TextBlock Grid.Column="3"
                                              Text="{Binding TotalEpisodes, UpdateSourceTrigger=PropertyChanged}" 
                                              MinWidth="25"
                                              MaxWidth="25"
-                                             TextAlignment="Center"/>
+                                             TextAlignment="Center"
+                                             VerticalAlignment="Center"/>
                                     
                                 </StackPanel>
                             </Grid>
