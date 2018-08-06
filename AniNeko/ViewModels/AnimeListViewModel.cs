@@ -70,7 +70,7 @@ namespace AniNeko.ViewModels
             // If currently searching, hides animes that are flagged for search
             if (IsSearching)
             {
-                foreach (var anime in _animes)
+                foreach (var anime in Animes)
                 {
                     if (anime.IsFlaggedForSearch)
                         anime.Hidden = false;
@@ -80,7 +80,7 @@ namespace AniNeko.ViewModels
             {
                 // Resets all animes within the data grid before sorting again
                 // This allows previously hidden items to be visible again
-                foreach (var anime in _animes)
+                foreach (var anime in Animes)
                 {
                     anime.Hidden = false;
                 }
