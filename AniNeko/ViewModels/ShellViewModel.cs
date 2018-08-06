@@ -2,6 +2,7 @@
 using AniNeko.Views;
 using System.Windows.Input;
 using System.Linq;
+using System.Windows.Controls;
 
 namespace AniNeko.ViewModels
 {
@@ -47,19 +48,23 @@ namespace AniNeko.ViewModels
             }
         }
 
+        private void StopSearching()
+        {
+            _animeListViewModel.IsSearching = false;          
+            _animeListViewModel.SortAnimeByStatus();
+        }
+
         public ICommand SearchCommand => new RelayCommand(ExecuteSearch);
 
         private void ExecuteSearch(object _input)
         {
             string input = _input.ToString(); // Gets the text from the search bar
-            AnimeListView view = (AnimeListView)_animeListViewModel.GetView();
             AnimeListViewModel animeVM = _animeListViewModel;
             
-            // Sets the data grid item source to the original collection
+            // Cancels the search if there is no input
             if (string.IsNullOrEmpty(input))
             {
-                animeVM.IsSearching = false;
-                animeVM.SortAnimeByStatus();
+                StopSearching();
                 return;
             }
 
@@ -88,6 +93,17 @@ namespace AniNeko.ViewModels
             // This ensures if the user enters a search under a sorting tab, the list will still be sorted
             if (Selected != 0)
                 animeVM.SortAnimeByStatus();
+        }
+
+        public ICommand CancelSearchCommand => new RelayCommand(ExecuteCancelSearch);
+
+        private void ExecuteCancelSearch(object _textBox)
+        {
+            TextBox searchBox = _textBox as TextBox;
+
+            // Sets the text within the search bar to nothing
+            searchBox.Text = "";
+            StopSearching();
         }
     }
 }
