@@ -3,6 +3,8 @@ using AniNeko.Views;
 using MaterialDesignThemes.Wpf;
 using System;
 using System.Windows.Input;
+using System.Linq;
+using AniNeko.Models;
 
 namespace AniNeko.ViewModels
 {
@@ -44,6 +46,28 @@ namespace AniNeko.ViewModels
                 else if (_selectedTabIndex == 4)
                     _animeListViewModel.SortType = AnimeListViewModel.SortMethod.Dropped;
             }
+        }
+
+        public ICommand SearchCommand => new RelayCommand(Search);
+
+        private void Search(object o)
+        {
+            AnimeListView view = (AnimeListView)_animeListViewModel.GetView();
+            string input = o.ToString(); // Gets the text from the text box
+
+            // Sets the data grid item source to the original collection
+            if (string.IsNullOrEmpty(input))
+            {
+                view.MyDataGrid.ItemsSource = _animeListViewModel.Animes;
+                return;
+            }
+
+            // Searches the anime list for entries that contain the input and places it in a new bindable collection
+            var filteredList = _animeListViewModel.Animes.Where(anime => anime.AnimeName.ToLower().Contains(input.ToLower()));
+            BindableCollection<AnimeModel> newList = new BindableCollection<AnimeModel>(filteredList);
+
+            // Sets the data grids item source to the new list
+            view.MyDataGrid.ItemsSource = newList;
         }
     }
 }

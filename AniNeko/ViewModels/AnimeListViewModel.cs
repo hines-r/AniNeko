@@ -2,7 +2,6 @@
 using AniNeko.Models;
 using AniNeko.Views;
 using MaterialDesignThemes.Wpf;
-using System;
 using System.Windows.Input;
 
 namespace AniNeko.ViewModels

@@ -21,7 +21,7 @@
             <RowDefinition Height="45"/>
         </Grid.RowDefinitions>
 
-        <DataGrid x:Name="MyDataGrid" ItemsSource="{Binding Animes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        <DataGrid x:Name="MyDataGrid" ItemsSource="{Binding Animes, UpdateSourceTrigger=PropertyChanged}"
                   Grid.Row="0" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False"
                   materialDesign:DataGridAssist.CellPadding="16 8 8 8" IsReadOnly="True" 
                   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"

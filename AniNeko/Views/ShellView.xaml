@@ -15,6 +15,7 @@
                       TitleCaps="False"
                       Title="AniNeko" Height="600" Width="850">
 
+    <!-- LEFT SIDE BUTTON -->
     <controls:MetroWindow.LeftWindowCommands>
         <controls:WindowCommands>
             <wpf:PopupBox Style="{StaticResource WindowCommandsPopupBoxStyle}">
@@ -26,16 +27,17 @@
         </controls:WindowCommands>
     </controls:MetroWindow.LeftWindowCommands>
 
-    <!-- TABS -->
     <materialDesign:DialogHost Identifier="RootDialog">
         <Grid>
+            
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <dragablz:TabablzControl Grid.Row="0" SelectedIndex="{Binding Selected}" FixedHeaderCount="5">
-
+            <!-- TABS -->
+            <dragablz:TabablzControl SelectedIndex="{Binding Selected}" FixedHeaderCount="5">
+                
                 <TabItem Header="ALL"/>
                 <TabItem Header="WATCHING"/>
                 <TabItem Header="COMPLETED"/>
@@ -44,7 +46,47 @@
 
             </dragablz:TabablzControl>
 
+            <!-- SEARCH BAR -->
+            <StackPanel Grid.Row="0" Orientation="Horizontal" materialDesign:RippleAssist.IsCentered="True" HorizontalAlignment="Right">
+                <materialDesign:ColorZone Mode="Standard" 
+                                          CornerRadius="2" 
+                                          Panel.ZIndex="1" 
+                                          Margin="0 0 4 0"
+                                          materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                                          VerticalAlignment="Center">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <Button Style="{DynamicResource MaterialDesignToolButton}">
+                            <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
+                        </Button>
+
+                        <TextBox Grid.Column="1"
+                                 Margin="8 0 0 0"
+                                 materialDesign:HintAssist.Hint="Search"
+                                 materialDesign:TextFieldAssist.DecorationVisibility="Hidden" 
+                                 BorderThickness="0"
+                                 MinWidth="175"
+                                 VerticalAlignment="Center">
+
+                            <TextBox.InputBindings>
+                                <KeyBinding Key="Return"
+                                            Command="{Binding SearchCommand}"
+                                            CommandParameter="{Binding Path=Text, RelativeSource={RelativeSource AncestorType={x:Type TextBox}}}"/>
+                            </TextBox.InputBindings>
+
+                        </TextBox>
+                    </Grid>
+                </materialDesign:ColorZone>
+            </StackPanel>
+
+            <!-- CONTENT -->
             <ContentControl Grid.Row="1" x:Name="ActiveItem"/>
+            
         </Grid>
     </materialDesign:DialogHost>
 
