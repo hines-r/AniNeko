@@ -90,7 +90,7 @@
                                 Style="{DynamicResource MaterialDesignToolButton}"
                                 Command="{Binding CancelSearchCommand}"
                                 CommandParameter="{Binding ElementName=SearchBox}">
-                            <materialDesign:PackIcon Kind="CloseCircleOutline" Opacity=".7"/>
+                            <materialDesign:PackIcon Kind="Close" Opacity=".7"/>
                         </Button>
                         
                     </Grid>
