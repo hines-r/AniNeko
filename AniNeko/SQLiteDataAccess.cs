@@ -16,7 +16,7 @@ namespace AniNeko
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
-                var output = cnn.Query<AnimeModel>("SELECT * FROM " + TableName, new DynamicParameters());
+                var output = cnn.Query<AnimeModel>($"SELECT * FROM {TableName}", new DynamicParameters());
                 return output.ToList();
             }
         }
