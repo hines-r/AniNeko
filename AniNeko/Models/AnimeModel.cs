@@ -57,8 +57,7 @@ namespace AniNeko.Models
 
         public string WatchStatus
         {
-            get {
-                return _watchStatus; }
+            get { return _watchStatus; }
             set
             {
                 _watchStatus = value;
