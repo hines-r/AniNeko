@@ -49,8 +49,9 @@ namespace AniNeko.ViewModels
             foreach (var anime in list)
             {
                 _animes.Add(anime);
-                NotifyOfPropertyChange(() => TotalAnimes);
             }
+
+            NotifyOfPropertyChange(() => TotalAnimes);
         }
 
         public SortMethod SortType
